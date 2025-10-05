@@ -33,8 +33,34 @@ object camion {
 		return(self.pesoTotal() > pesoMaximo)
 	}
 
-	method hayAlgoConPeligrosidad_(numero){
+	method hayAlgoConPeligrosidadEspecifica_(numero){
 		return(cosas.any({cosa => cosa.nivelPeligrosidad() == numero}))
 	}
 
+	method algoConPeligrosidadEspecifica_(numero){
+		return(cosas.find({cosa => cosa.nivelPeligrosidad() == numero}))
+	}
+
+	method hayAlgoConPeligrosidadMayorA_(numero){
+		return(cosas.filter({cosa => cosa.nivelPeligrosidad() > numero}))
+	}
+
+// me di cuenta a mitad de esto que el ejercicio pedía los elementos y no si existían
+	
+	method cosasConPeligrosidadMayorA_(numero){
+		return(cosas.filter({cosa => cosa.nivelPeligrosidad() > numero}))
+	}
+
+	method cosasMásPeligrosasQue_(elemento){
+		return (cosas.filter({cosa => cosa.nivelPeligrosidad() > elemento.nivelPeligrosidad()}))
+	}
+
+	method peligrosidadTotal(){
+		return(cosas.sum({cosa => cosa.nivelPeligrosidad()}))
+	}
+
+	method puedeCircularEnRuta(peligrosidadMaxima){
+		return (!self.estaSobreexcedidoDePeso() && (self.peligrosidadTotal() < peligrosidadMaxima))
+	}
 }
+
