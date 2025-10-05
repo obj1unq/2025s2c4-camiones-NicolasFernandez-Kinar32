@@ -3,6 +3,8 @@ import camion.*
 object knightRider {
 	method peso() { return 500 }
 	method nivelPeligrosidad() { return 10 }
+	method bultosNecesarios() {return 1}
+	method accidentado(){null}
 }
 
 object arenaAGranel {
@@ -18,6 +20,14 @@ object arenaAGranel {
 	method nivelPeligrosidad(){
 		return 1
 	}
+
+	method bultosNecesarios(){
+		return 1
+	}
+
+	method accidentado(){
+		pesoActual +=20
+	}
 }
 
 object bumblebee {
@@ -30,17 +40,33 @@ object bumblebee {
 	method nivelPeligrosidad(){
 		return modoActual.nivelPeligrosidad()
 	}
+
+	method bultosNecesarios(){
+		return 2
+	}
+
+	method accidentado(){
+		return modoActual.opuesto()
+	}
 }
 
 object modoAuto{
 	method nivelPeligrosidad(){
 		return 15
 	}
+
+	method opuesto(){
+		return modoTransformer
+	}
 }
 
 object modoTransformer{
 	method nivelPeligrosidad(){
 		return 30
+	}
+
+	method opuesto(){
+		return modoAuto
 	}
 }
 
@@ -58,6 +84,18 @@ object paqueteLadrillos{
 	method nivelPeligrosidad(){
 		return 2
 	}
+
+	method bultosNecesarios(){
+		return if(cantidadLadrillos.between(0, 100)){1} 
+		else if(cantidadLadrillos.between(101, 300)){2}
+		else{3}
+	}
+
+	method accidentado(){
+		return if(cantidadLadrillos > 13){
+			cantidadLadrillos -= 12
+		}else{cantidadLadrillos = 0}
+	}
 }
 
 object bateriaAntiaerea{
@@ -70,6 +108,14 @@ object bateriaAntiaerea{
 	method nivelPeligrosidad(){
 		return (estadoMisiles.nivelPeligrosidad())
 	}
+
+	method bultosNecesarios(){
+		return (estadoMisiles.bultosNecesarios())
+	}
+
+	method accidentado(){
+		estadoMisiles = sinMisiles
+	}
 }
 
 object conMisiles{
@@ -79,6 +125,10 @@ object conMisiles{
 
 	method nivelPeligrosidad(){
 		return 100
+	}
+
+	method bultosNecesarios(){
+		return 2
 	}
 }
 
@@ -90,10 +140,14 @@ object sinMisiles{
 	method nivelPeligrosidad(){
 		return 0
 	}
+
+	method bultosNecesarios(){
+		return 1
+	}
 }
 
 object residuosRadioactivos{
-	var pesoActual = 0
+	var property pesoActual = 0
 
 	method pesoActual(numero){
 		pesoActual = numero
@@ -105,6 +159,14 @@ object residuosRadioactivos{
 
 	method nivelPeligrosidad(){
 		return 200
+	}
+
+	method bultosNecesarios(){
+		return 1
+	}
+
+	method accidentado(){
+		pesoActual += 15
 	}
 }
 
@@ -137,6 +199,18 @@ object contenedorPortuario{
 			(self.cosaMasPeligrosa().nivelPeligrosidad())
 			}else{0}
 	}
+
+	method bultosEnCarga(){
+		return (cosas.sum({cosa => cosa.bultosNecesarios()}))
+	}
+
+	method bultosNecesarios(){
+		return(self.bultosEnCarga() + 1)
+	}
+
+	method accidentado(){
+		cosas.forEach({cosa => cosa.accidentado()})
+	}
 }
 
 object embalajeSeguridad {
@@ -152,5 +226,13 @@ object embalajeSeguridad {
 
   method nivelPeligrosidad(){
 	return ((cosa.uniqueElement().nivelPeligrosidad()) / 2)
+  }
+
+  method bultosNecesarios(){
+	return 2
+  }
+
+  method accidentado(){
+	null
   }
 }

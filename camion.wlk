@@ -71,8 +71,24 @@ object camion {
 		return(cosas.sum({cosa => cosa.nivelPeligrosidad()}))
 	}
 
+	//hecho antes de la parte de transportes
 	method puedeCircularEnRuta(peligrosidadMaxima){
 		return (!self.estaSobreexcedidoDePeso() && (self.peligrosidadTotal() < peligrosidadMaxima))
+	} 
+
+	method accidente(){
+		cosas.forEach({cosa => cosa.accidentado()})
+	}
+
+	method descargarTodo(almacen){
+		almacen.guardarTodo(cosas)
+		cosas.clear()
+	}
+
+	method realizarTransporte(destino, ruta){
+		if(ruta.puedeSerRecorrida(self)){
+			self.descargarTodo(destino)
+		}
 	}
 }
 
