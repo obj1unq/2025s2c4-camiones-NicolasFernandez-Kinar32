@@ -33,6 +33,18 @@ object camion {
 		return(self.pesoTotal() > pesoMaximo)
 	}
 
+	method laCosaMasPesada(){
+		return(cosas.max({cosa => cosa.peso()}))
+	}
+
+	method hayAlgoConPesoEntre_Y_(min, max){
+		return(cosas.any({cosa => cosa.peso().between(min, max)}))
+	}
+
+	method listaDePesos(){
+		return(cosas.map({cosa => cosa.peso()}))
+	}
+
 	method hayAlgoConPeligrosidadEspecifica_(numero){
 		return(cosas.any({cosa => cosa.nivelPeligrosidad() == numero}))
 	}

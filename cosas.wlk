@@ -6,13 +6,13 @@ object knightRider {
 }
 
 object arenaAGranel {
-	var pesoAhora = 0
+	var pesoActual = 0
 
-	method pesoAhora(numero){
-		pesoAhora = numero
+	method pesoActual(numero){
+		pesoActual = numero
 	}
 	method peso(){
-		return pesoAhora
+		return pesoActual
 	}
 
 	method nivelPeligrosidad(){
@@ -106,4 +106,51 @@ object residuosRadioactivos{
 	method nivelPeligrosidad(){
 		return 200
 	}
+}
+
+object contenedorPortuario{
+	const property cosas = #{}
+	const pesoBase = 100
+
+	method cargar(cosa){
+		cosas.add(cosa)
+	}
+
+	method descargar(cosa){
+		cosas.remove(cosa)
+	}
+
+	method pesoCarga(){
+		return(cosas.sum({cosa => cosa.peso()}))
+	}
+
+	method peso(){
+		return(self.pesoCarga() + pesoBase)
+	}
+
+	method cosaMasPeligrosa(){
+		return(cosas.max({cosa => cosa.nivelPeligrosidad()}))
+	}
+
+	method nivelPeligrosidad(){
+		return if(!cosas.isEmpty()){
+			(self.cosaMasPeligrosa().nivelPeligrosidad())
+			}else{0}
+	}
+}
+
+object embalajeSeguridad {
+  const property cosa = #{}
+
+  method embalar(obj){
+	cosa.add(obj)
+  }
+
+  method peso(){
+	return (cosa.uniqueElement().peso())
+  } 
+
+  method nivelPeligrosidad(){
+	return ((cosa.uniqueElement().nivelPeligrosidad()) / 2)
+  }
 }
