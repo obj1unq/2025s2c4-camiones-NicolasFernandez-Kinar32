@@ -1,4 +1,5 @@
 import camion.*
+import extras.*
 
 object knightRider {
 	method peso() { return 500 }
@@ -45,9 +46,14 @@ object bumblebee {
 		return 2
 	}
 
-	method accidentado(){
-		return modoActual.opuesto()
+	method transformar(){
+		modoActual = modoActual.opuesto()
 	}
+
+	method accidentado(){
+		self.transformar()
+	}
+	
 }
 
 object modoAuto{
@@ -76,6 +82,8 @@ object paqueteLadrillos{
 	method cantidadLadrillos(numero){
 		cantidadLadrillos = numero
 	}
+
+	method cantidadLadrillos() = cantidadLadrillos
 
 	method peso(){
 		return 2 * cantidadLadrillos

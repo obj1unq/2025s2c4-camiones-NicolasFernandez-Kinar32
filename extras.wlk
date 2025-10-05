@@ -4,6 +4,10 @@ import cosas.*
 object almacen{
 	const property deposito = #{}
 
+    method guardarObj(obj){
+        deposito.add(obj)
+    }
+
 	method guardarTodo(paquetes){
 		deposito.addAll(paquetes)
 	} 
@@ -20,7 +24,7 @@ object ruta9{
 }
 
 object caminoVecinal{
-    var property pesoMaximo = 2500
+    var property pesoMaximo = 1500
 
     method puedeSerRecorrida(transporte){
         return (transporte.pesoTotal() < pesoMaximo)

@@ -1,4 +1,5 @@
 import cosas.*
+import extras.*
 
 object camion {
 	const property cosas = #{}
@@ -76,6 +77,10 @@ object camion {
 		return (!self.estaSobreexcedidoDePeso() && (self.peligrosidadTotal() < peligrosidadMaxima))
 	} 
 
+	method cantidadBultos(){
+		return(cosas.sum({cosa => cosa.bultosNecesarios()}))
+	}
+
 	method accidente(){
 		cosas.forEach({cosa => cosa.accidentado()})
 	}
@@ -85,8 +90,10 @@ object camion {
 		cosas.clear()
 	}
 
-	method realizarTransporte(destino, ruta){
-		if(ruta.puedeSerRecorrida(self)){
+	//como no todos los caminos disponibles tienen definida una peligrosidad limite prefiero no utilizar
+	//el metodo previo de "puedeCircularEnRuta(peligrosidadMaxima)", en caso contrario sería interesante reaprovecharlo
+	method transportar(destino, ruta){
+		if(!self.estaSobreexcedidoDePeso() && ruta.puedeSerRecorrida(self)){
 			self.descargarTodo(destino)
 		}
 	}
